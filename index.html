@@ -93,15 +93,15 @@
             text-align: right;
         }
 
-        /* ═══════════ DROPDOWN TERMS ═══════════ */
-        .terms-dropdown {
+        /* ═══════════ DROPDOWN (mandat + legal) ═══════════ */
+        .dropdown {
             border: 1px solid var(--ar-border);
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 16px;
         }
 
-        .terms-dropdown summary {
+        .dropdown summary {
             padding: 12px 16px;
             background: var(--ar-light);
             cursor: pointer;
@@ -114,23 +114,23 @@
             list-style: none;
         }
 
-        .terms-dropdown summary::-webkit-details-marker { display: none; }
+        .dropdown summary::-webkit-details-marker { display: none; }
 
-        .terms-dropdown summary::before {
+        .dropdown summary::before {
             content: '▶';
             font-size: 10px;
             transition: transform 0.2s;
         }
 
-        .terms-dropdown[open] summary::before {
+        .dropdown[open] summary::before {
             transform: rotate(90deg);
         }
 
-        .terms-dropdown summary:hover {
+        .dropdown summary:hover {
             background: #eef2ff;
         }
 
-        .terms-content {
+        .dropdown-content {
             padding: 16px;
             font-size: 13px;
             color: var(--ar-text-light);
@@ -138,7 +138,7 @@
             border-top: 1px solid var(--ar-border);
         }
 
-        .terms-content .section-title {
+        .dropdown-content .section-title {
             font-weight: 700;
             text-decoration: underline;
             margin-top: 12px;
@@ -146,12 +146,52 @@
             color: var(--ar-text);
         }
 
-        .terms-content ol {
+        .dropdown-content ol {
             padding-left: 20px;
             margin: 8px 0;
         }
 
-        .terms-content ol li { margin-bottom: 6px; }
+        .dropdown-content ol li { margin-bottom: 6px; }
+
+        /* ═══════════ MINI DROPDOWN (legal text under checkbox) ═══════════ */
+        .legal-mini {
+            margin-top: 6px;
+            margin-left: 30px;
+            border: none;
+        }
+
+        .legal-mini summary {
+            padding: 0;
+            background: none;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--ar-text-light);
+            gap: 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .legal-mini summary::before {
+            content: 'ℹ️';
+            font-size: 11px;
+        }
+
+        .legal-mini[open] summary::before {
+            content: 'ℹ️';
+        }
+
+        .legal-mini summary:hover {
+            color: var(--ar-accent);
+            background: none;
+        }
+
+        .legal-mini .legal-text {
+            padding: 8px 0 0 0;
+            font-size: 12px;
+            color: var(--ar-text-light);
+            line-height: 1.5;
+            border-top: none;
+        }
 
         /* ═══════════ SIGNATURE PAD ═══════════ */
         .signature-area {
@@ -311,7 +351,7 @@
 
         <div id="signingForm">
 
-            <!-- Card: Info mandant (SANS référence) -->
+            <!-- Card: Info -->
             <div class="card">
                 <div class="card-title">📋 Votre procuration LPP</div>
                 <div class="info-grid" id="clientInfo">
@@ -323,10 +363,10 @@
             <div class="card">
                 <div class="card-title">✍️ Signature électronique</div>
 
-                <!-- Termes déroulants -->
-                <details class="terms-dropdown">
-                    <summary>📄 Voir les termes de la procuration</summary>
-                    <div class="terms-content">
+                <!-- Déroulant : Voir le mandat de recherche -->
+                <details class="dropdown">
+                    <summary>📄 Voir le mandat de recherche</summary>
+                    <div class="dropdown-content">
                         <p class="section-title">MANDATAIRE :</p>
                         <p><strong>AR CONSEILS SÀRL</strong><br>
                         Chemin du Grand-Puits, 40<br>
@@ -366,7 +406,7 @@
                     <button class="clear-btn" onclick="clearSignature()">Effacer</button>
                 </div>
 
-                <!-- Checkbox consentement (juste avant le bouton) -->
+                <!-- Checkbox consentement -->
                 <div class="consent-check">
                     <input type="checkbox" id="consentCheckbox" onchange="updateSubmitState()">
                     <label for="consentCheckbox">
@@ -374,6 +414,17 @@
                         de ma signature électronique sur ce document.
                     </label>
                 </div>
+
+                <!-- Mini déroulant : détail juridique -->
+                <details class="legal-mini">
+                    <summary>En savoir plus</summary>
+                    <div class="legal-text">
+                        En signant ce document, vous autorisez AR Conseils Sàrl à entreprendre les démarches 
+                        de recherche et de suivi relatives à votre avoir de 2<sup>e</sup> pilier (LPP). 
+                        Votre signature sera intégrée directement sur la procuration officielle.
+                        Vos données sont traitées conformément à la Loi fédérale sur la protection des données (LPD).
+                    </div>
+                </details>
 
                 <!-- Bouton envoyer -->
                 <button class="submit-btn" id="submitBtn" onclick="submitSignature()" disabled>
@@ -430,12 +481,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         signatureId = window.location.hash.substring(1);
-
-        if (!signatureId) {
-            showError();
-            return;
-        }
-
+        if (!signatureId) { showError(); return; }
         initSignaturePad();
         loadClientInfo();
     });
@@ -474,8 +520,7 @@
     }
 
     function loadClientInfo() {
-        const infoContainer = document.getElementById('clientInfo');
-        infoContainer.innerHTML = `
+        document.getElementById('clientInfo').innerHTML = `
             <div class="info-row">
                 <span class="info-label">Document</span>
                 <span class="info-value">Procuration LPP</span>
@@ -507,30 +552,25 @@
 
     async function submitSignature() {
         const btn = document.getElementById('submitBtn');
-
-        if (!signatureId) { showStatus('Erreur : lien de signature invalide.', 'error'); return; }
-        if (signaturePad.isEmpty()) { showStatus('Veuillez signer dans le cadre ci-dessus.', 'error'); return; }
-        if (!document.getElementById('consentCheckbox').checked) { showStatus('Veuillez accepter les conditions.', 'error'); return; }
+        if (!signatureId) { showStatus('Erreur : lien invalide.', 'error'); return; }
+        if (signaturePad.isEmpty()) { showStatus('Veuillez signer.', 'error'); return; }
+        if (!document.getElementById('consentCheckbox').checked) { showStatus('Veuillez accepter.', 'error'); return; }
 
         btn.disabled = true;
         btn.textContent = 'Envoi en cours...';
         showStatus('⏳ Envoi de votre signature en cours...', 'loading');
 
         try {
-            const signatureImage = signaturePad.toDataURL('image/png');
-
             await fetch(WEBHOOK_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     signatureId: signatureId,
-                    signatureImage: signatureImage
+                    signatureImage: signaturePad.toDataURL('image/png')
                 })
             });
-
             showSuccess();
-
         } catch (error) {
             console.error('Erreur:', error);
             showStatus('❌ Erreur de connexion. Veuillez réessayer.', 'error');
@@ -540,9 +580,9 @@
     }
 
     function showStatus(message, type) {
-        const status = document.getElementById('statusMsg');
-        status.className = 'status ' + type;
-        status.textContent = message;
+        const s = document.getElementById('statusMsg');
+        s.className = 'status ' + type;
+        s.textContent = message;
     }
 
     function showSuccess() {
