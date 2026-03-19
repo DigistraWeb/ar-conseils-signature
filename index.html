@@ -367,7 +367,7 @@
                         <br>
                         <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
                             AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
-                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
+                            (+41) 22 350 50 00 — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="50393e363f10333f3e2335393c237d31227e3338">[email&#160;protected]</a> — www.conseils-ar.ch
                         </p>
                     </div>
                 </details>
@@ -406,11 +406,12 @@
 
     <!-- ═══════════ FOOTER ═══════════ -->
     <div class="footer">
-        AR Conseils Sàrl — <a href="tel:+41223505000">+41 22 350 50 00</a> — <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
+        AR Conseils Sàrl — Chemin du Grand-Puits, 40 — CH-1217 Meyrin<br>
+        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -435,8 +436,8 @@
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
             canvas.width = container.offsetWidth * ratio;
-            canvas.height = 220 * ratio;
-            canvas.style.height = '220px';
+            canvas.height = 200 * ratio;
+            canvas.style.height = '200px';
             canvas.getContext('2d').scale(ratio, ratio);
             if (signaturePad) signaturePad.clear();
         }
@@ -544,11 +545,4 @@
     }
 
     function showStatus(message, type) {
-        const s = document.getElementById('statusMsg');
-        s.className = 'status ' + type;
-        s.textContent = message;
-    }
-
-    function showSuccess() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('successScree
+        const s = document.getElementById('statusMs
