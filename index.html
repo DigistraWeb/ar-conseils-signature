@@ -401,7 +401,7 @@
                 <div class="signature-area" id="signatureArea">
                     <canvas id="signaturePad"></canvas>
                     <div class="signature-placeholder" id="placeholder">
-                        Signez ici avec votre doigt ou souris
+                        Signez ici<br><small style="font-size: 11px; color: #94a3b8;">(restez dans le cadre)</small>
                     </div>
                     <button class="clear-btn" onclick="clearSignature()">Effacer</button>
                 </div>
@@ -492,9 +492,11 @@
 
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
+            // Plus grand sur mobile (250px au lieu de 200px)
+            const canvasHeight = window.innerWidth < 500 ? 250 : 200;
             canvas.width = container.offsetWidth * ratio;
-            canvas.height = 200 * ratio;
-            canvas.style.height = '200px';
+            canvas.height = canvasHeight * ratio;
+            canvas.style.height = canvasHeight + 'px';
             canvas.getContext('2d').scale(ratio, ratio);
             if (signaturePad) signaturePad.clear();
         }
@@ -506,7 +508,9 @@
             backgroundColor: 'rgb(255, 255, 255)',
             penColor: '#1a1a2e',
             minWidth: 1,
-            maxWidth: 2.5
+            maxWidth: 2.5,
+            // Empêcher le dessin de sortir du canvas
+            throttle: 0
         });
 
         signaturePad.addEventListener('beginStroke', function() {
