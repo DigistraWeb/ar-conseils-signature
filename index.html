@@ -158,12 +158,77 @@
 
         .dropdown summary::-webkit-details-marker { display: none; }
 
+        .dropdown summary::before {
+            content: '▶';
+            font-size: 10px;
+            margin-right: 8px;
+            transition: transform 0.2s;
+        }
+
+        .dropdown[open] summary::before {
+            transform: rotate(90deg);
+        }
+
         .dropdown-content {
             padding: 14px;
             font-size: 12px;
             color: var(--ar-text-light);
             line-height: 1.6;
             border-top: 1px solid var(--ar-border);
+        }
+
+        .dropdown-content .section-title {
+            font-weight: 700;
+            text-decoration: underline;
+            margin-top: 12px;
+            margin-bottom: 4px;
+            color: var(--ar-text);
+        }
+
+        .dropdown-content ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .dropdown-content ol li { margin-bottom: 6px; }
+
+        /* ═══════════ MINI DROPDOWN (legal text under checkbox) ═══════════ */
+        .legal-mini {
+            margin-top: 6px;
+            margin-left: 30px;
+            border: none;
+        }
+
+        .legal-mini summary {
+            padding: 0;
+            background: none;
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--ar-text-light);
+            gap: 4px;
+            display: inline-flex;
+            align-items: center;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .legal-mini summary::-webkit-details-marker { display: none; }
+
+        .legal-mini summary::before {
+            content: 'ℹ️';
+            font-size: 11px;
+            margin-right: 4px;
+        }
+
+        .legal-mini summary:hover {
+            color: var(--ar-accent);
+        }
+
+        .legal-mini .legal-text {
+            padding: 8px 0 0 0;
+            font-size: 12px;
+            color: var(--ar-text-light);
+            line-height: 1.5;
         }
 
         /* ═══════════ SUBMIT BUTTON ═══════════ */
@@ -257,20 +322,53 @@
                 <div class="consent-check">
                     <input type="checkbox" id="consentCheckbox" onchange="updateSubmitState()">
                     <label for="consentCheckbox">
-                        J'accepte les termes de la procuration et l'utilisation de ma signature électronique.
+                        J'ai lu et j'accepte les termes de la procuration. Je consens à l'utilisation 
+                        de ma signature électronique sur ce document.
                     </label>
                 </div>
+
+                <!-- Mini déroulant : détail juridique -->
+                <details class="legal-mini">
+                    <summary>En savoir plus</summary>
+                    <div class="legal-text">
+                        En signant ce document, vous autorisez AR Conseils Sàrl à entreprendre les démarches 
+                        de recherche et de suivi relatives à votre avoir de 2<sup>e</sup> pilier (LPP). 
+                        Votre signature sera intégrée directement sur la procuration officielle.
+                        Vos données sont traitées conformément à la Loi fédérale sur la protection des données (LPD).
+                    </div>
+                </details>
 
                 <!-- Voir le mandat (optionnel) -->
                 <details class="dropdown">
                     <summary>📄 Voir le mandat de recherche</summary>
                     <div class="dropdown-content">
-                        <p><strong>MANDATAIRE : AR CONSEILS SÀRL</strong><br>
-                        Chemin du Grand-Puits, 40 — CH-1217 Meyrin</p>
+                        <p class="section-title">MANDATAIRE :</p>
+                        <p><strong>AR CONSEILS SÀRL</strong><br>
+                        Chemin du Grand-Puits, 40<br>
+                        CH-1217 Meyrin</p>
+
                         <br>
-                        <p>Par la présente, j'autorise AR Conseils Sàrl à effectuer les recherches relatives à mon avoir de 2e pilier (LPP) auprès des caisses de pension et institutions de prévoyance.</p>
+                        <p>Par la présente, j'autorise la société <strong>AR Conseils Sàrl</strong> à me représenter dans le cadre des démarches suivantes :</p>
+
+                        <ol>
+                            <li><strong>Recherche, collecte d'informations et suivi</strong> relatifs à mon avoir de 2<sup>e</sup> pilier (LPP) auprès des différentes caisses de pension, institutions de prévoyance et fondations de libre passage ;</li>
+                            <li><strong>Le cas échéant</strong>, prise de contact et échanges avec les caisses de compensation AVS ainsi que tout autre organisme social concerné, en vue de la clarification et/ou de la complétude de mon dossier.</li>
+                        </ol>
+
                         <br>
-                        <p>Cette procuration est valable jusqu'à révocation écrite de ma part.</p>
+                        <p>La présente procuration autorise le mandataire à entreprendre toutes démarches utiles, à recevoir les documents et renseignements nécessaires et à correspondre en mon nom auprès des organismes précités.</p>
+
+                        <p>Elle est valable jusqu'à révocation écrite de ma part.</p>
+
+                        <br>
+                        <p class="section-title">Protection des données</p>
+                        <p>Les données personnelles collectées dans le cadre de la présente procuration sont utilisées exclusivement pour l'exécution du mandat confié à AR Conseils Sàrl et traitées de manière strictement confidentielle conformément à la Loi fédérale sur la protection des données (LPD).</p>
+
+                        <br>
+                        <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
+                            AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
+                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
+                        </p>
                     </div>
                 </details>
 
@@ -300,7 +398,7 @@
             <p>Ce lien de signature est invalide ou a déjà été utilisé.</p>
             <p style="margin-top: 12px;">
                 📞 <a href="tel:+41223505000">+41 22 350 50 00</a><br>
-                ✉️ <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a>
+                ✉️ <a href="/cdn-cgi/l/email-protection#026b6c646d42616d6c71676b6e712f63702c616a"><span class="__cf_email__" data-cfemail="1a73747c755a797574697f737669377b68347972">[email&#160;protected]</span></a>
             </p>
         </div>
 
@@ -312,7 +410,7 @@
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -453,14 +551,4 @@
 
     function showSuccess() {
         document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('successScreen').classList.add('active');
-    }
-
-    function showError() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('errorScreen').classList.add('active');
-    }
-    </script>
-
-</body>
-</html>
+        document.getElementById('successScree
