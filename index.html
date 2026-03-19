@@ -359,7 +359,7 @@
                 <div class="signature-area" id="signatureArea">
                     <canvas id="signaturePad"></canvas>
                     <div class="signature-placeholder" id="placeholder">
-                        Signez ici avec votre doigt ou souris
+                        Signez dans ce cadre<br><small style="color: #94a3b8;">sans dépasser les bordures</small>
                     </div>
                     <button class="clear-btn" onclick="clearSignature()">Effacer</button>
                 </div>
@@ -413,7 +413,7 @@
                         <br>
                         <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
                             AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
-                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
+                            (+41) 22 350 50 00 — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b0b7bfb699bab6b7aabcb0b5aaf4b8abf7bab1">[email&#160;protected]</a> — www.conseils-ar.ch
                         </p>
                     </div>
                 </details>
@@ -446,7 +446,7 @@
                Veuillez contacter AR Conseils pour obtenir un nouveau lien.</p>
             <p style="margin-top: 12px;">
                 📞 <a href="tel:+41223505000">+41 22 350 50 00</a><br>
-                ✉️ <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a>
+                ✉️ <a href="/cdn-cgi/l/email-protection#0c65626a634c6f63627f6965607f216d7e226f64"><span class="__cf_email__" data-cfemail="ff96919990bf9c90918c9a96938cd29e8dd19c97">[email&#160;protected]</span></a>
             </p>
         </div>
 
@@ -455,11 +455,11 @@
     <!-- ═══════════ FOOTER ═══════════ -->
     <div class="footer">
         AR Conseils Sàrl — Chemin du Grand-Puits, 40 — CH-1217 Meyrin<br>
-        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
+        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="/cdn-cgi/l/email-protection#50393e363f10333f3e2335393c237d31227e3338"><span class="__cf_email__" data-cfemail="442d2a222b04272b2a37212d28376925366a272c">[email&#160;protected]</span></a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -480,18 +480,37 @@
     function initSignaturePad() {
         const canvas = document.getElementById('signaturePad');
         const container = document.getElementById('signatureArea');
+        let isInitialized = false;
 
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
-            canvas.width = container.offsetWidth * ratio;
-            canvas.height = 280 * ratio;
-            canvas.style.height = '280px';
-            canvas.getContext('2d').scale(ratio, ratio);
-            if (signaturePad) signaturePad.clear();
+            const newWidth = container.offsetWidth * ratio;
+            const newHeight = 280 * ratio;
+            
+            // Ne redimensionner que si la taille a vraiment changé ET si c'est la première fois
+            // ou si le changement est significatif (plus de 50px de différence)
+            if (!isInitialized || Math.abs(canvas.width - newWidth) > 50) {
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                canvas.style.height = '280px';
+                canvas.getContext('2d').scale(ratio, ratio);
+                if (signaturePad && isInitialized) {
+                    // Ne pas effacer si déjà initialisé, sauf si changement majeur
+                    signaturePad.clear();
+                    document.getElementById('placeholder').classList.remove('hidden');
+                }
+                isInitialized = true;
+            }
         }
 
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        
+        // Ne réagir au resize que sur des changements significatifs (rotation écran)
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 500);
+        });
 
         signaturePad = new SignaturePad(canvas, {
             backgroundColor: 'rgb(255, 255, 255)',
@@ -605,21 +624,4 @@
     }
 
     function showStatus(message, type) {
-        const s = document.getElementById('statusMsg');
-        s.className = 'status ' + type;
-        s.textContent = message;
-    }
-
-    function showSuccess() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('successScreen').classList.add('active');
-    }
-
-    function showError() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('errorScreen').classList.add('active');
-    }
-    </script>
-
-</body>
-</html>
+        const s = docume
