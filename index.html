@@ -196,7 +196,7 @@
         /* ═══════════ SIGNATURE PAD ═══════════ */
         .signature-area {
             position: relative;
-            border: 2px solid var(--ar-border);
+            border: 3px solid var(--ar-dark);
             border-radius: 8px;
             overflow: hidden;
             background: var(--ar-white);
@@ -480,14 +480,21 @@
     function initSignaturePad() {
         const canvas = document.getElementById('signaturePad');
         const container = document.getElementById('signatureArea');
+        let initialWidth = 0;
 
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
-            canvas.width = container.offsetWidth * ratio;
-            canvas.height = 200 * ratio;
-            canvas.style.height = '200px';
-            canvas.getContext('2d').scale(ratio, ratio);
-            if (signaturePad) signaturePad.clear();
+            const newWidth = container.offsetWidth;
+            
+            // Ne redimensionner que si c'est la première fois ou si la largeur a vraiment changé (rotation écran)
+            if (initialWidth === 0 || Math.abs(initialWidth - newWidth) > 100) {
+                initialWidth = newWidth;
+                canvas.width = newWidth * ratio;
+                canvas.height = 200 * ratio;
+                canvas.style.height = '200px';
+                canvas.getContext('2d').scale(ratio, ratio);
+                if (signaturePad) signaturePad.clear();
+            }
         }
 
         resizeCanvas();
