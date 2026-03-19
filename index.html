@@ -196,7 +196,7 @@
         /* ═══════════ SIGNATURE PAD ═══════════ */
         .signature-area {
             position: relative;
-            border: 3px solid var(--ar-dark);
+            border: 2px solid var(--ar-border);
             border-radius: 8px;
             overflow: hidden;
             background: var(--ar-white);
@@ -355,37 +355,8 @@
             <div class="card">
                 <div class="card-title">✍️ Signez votre procuration LPP</div>
 
-                <!-- Zone de signature -->
-                <div class="signature-area" id="signatureArea">
-                    <canvas id="signaturePad"></canvas>
-                    <div class="signature-placeholder" id="placeholder">
-                        Signez dans ce cadre<br><small style="color: #94a3b8;">sans dépasser les bordures</small>
-                    </div>
-                    <button class="clear-btn" onclick="clearSignature()">Effacer</button>
-                </div>
-
-                <!-- Checkbox consentement -->
-                <div class="consent-check">
-                    <input type="checkbox" id="consentCheckbox" onchange="updateSubmitState()">
-                    <label for="consentCheckbox">
-                        J'ai lu et j'accepte les termes de la procuration. Je consens à l'utilisation 
-                        de ma signature électronique sur ce document.
-                    </label>
-                </div>
-
-                <!-- Mini déroulant : détail juridique -->
-                <details class="legal-mini">
-                    <summary>En savoir plus</summary>
-                    <div class="legal-text">
-                        En signant ce document, vous autorisez AR Conseils Sàrl à entreprendre les démarches 
-                        de recherche et de suivi relatives à votre avoir de 2<sup>e</sup> pilier (LPP). 
-                        Votre signature sera intégrée directement sur la procuration officielle.
-                        Vos données sont traitées conformément à la Loi fédérale sur la protection des données (LPD).
-                    </div>
-                </details>
-
                 <!-- Déroulant : Voir le mandat de recherche -->
-                <details class="dropdown" style="margin-top: 16px;">
+                <details class="dropdown">
                     <summary>📄 Voir le mandat de recherche</summary>
                     <div class="dropdown-content">
                         <p class="section-title">MANDATAIRE :</p>
@@ -413,8 +384,37 @@
                         <br>
                         <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
                             AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
-                            (+41) 22 350 50 00 — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b0b7bfb699bab6b7aabcb0b5aaf4b8abf7bab1">[email&#160;protected]</a> — www.conseils-ar.ch
+                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
                         </p>
+                    </div>
+                </details>
+
+                <!-- Zone de signature -->
+                <div class="signature-area" id="signatureArea">
+                    <canvas id="signaturePad"></canvas>
+                    <div class="signature-placeholder" id="placeholder">
+                        Signez dans ce cadre<br><small style="color: #94a3b8;">sans dépasser les bordures</small>
+                    </div>
+                    <button class="clear-btn" onclick="clearSignature()">Effacer</button>
+                </div>
+
+                <!-- Checkbox consentement -->
+                <div class="consent-check">
+                    <input type="checkbox" id="consentCheckbox" onchange="updateSubmitState()">
+                    <label for="consentCheckbox">
+                        J'ai lu et j'accepte les termes de la procuration. Je consens à l'utilisation 
+                        de ma signature électronique sur ce document.
+                    </label>
+                </div>
+
+                <!-- Mini déroulant : détail juridique -->
+                <details class="legal-mini">
+                    <summary>En savoir plus</summary>
+                    <div class="legal-text">
+                        En signant ce document, vous autorisez AR Conseils Sàrl à entreprendre les démarches 
+                        de recherche et de suivi relatives à votre avoir de 2<sup>e</sup> pilier (LPP). 
+                        Votre signature sera intégrée directement sur la procuration officielle.
+                        Vos données sont traitées conformément à la Loi fédérale sur la protection des données (LPD).
                     </div>
                 </details>
 
@@ -446,7 +446,7 @@
                Veuillez contacter AR Conseils pour obtenir un nouveau lien.</p>
             <p style="margin-top: 12px;">
                 📞 <a href="tel:+41223505000">+41 22 350 50 00</a><br>
-                ✉️ <a href="/cdn-cgi/l/email-protection#0c65626a634c6f63627f6965607f216d7e226f64"><span class="__cf_email__" data-cfemail="ff96919990bf9c90918c9a96938cd29e8dd19c97">[email&#160;protected]</span></a>
+                ✉️ <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a>
             </p>
         </div>
 
@@ -455,11 +455,11 @@
     <!-- ═══════════ FOOTER ═══════════ -->
     <div class="footer">
         AR Conseils Sàrl — Chemin du Grand-Puits, 40 — CH-1217 Meyrin<br>
-        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="/cdn-cgi/l/email-protection#50393e363f10333f3e2335393c237d31227e3338"><span class="__cf_email__" data-cfemail="442d2a222b04272b2a37212d28376925366a272c">[email&#160;protected]</span></a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
+        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -480,37 +480,18 @@
     function initSignaturePad() {
         const canvas = document.getElementById('signaturePad');
         const container = document.getElementById('signatureArea');
-        let isInitialized = false;
 
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
-            const newWidth = container.offsetWidth * ratio;
-            const newHeight = 280 * ratio;
-            
-            // Ne redimensionner que si la taille a vraiment changé ET si c'est la première fois
-            // ou si le changement est significatif (plus de 50px de différence)
-            if (!isInitialized || Math.abs(canvas.width - newWidth) > 50) {
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-                canvas.style.height = '280px';
-                canvas.getContext('2d').scale(ratio, ratio);
-                if (signaturePad && isInitialized) {
-                    // Ne pas effacer si déjà initialisé, sauf si changement majeur
-                    signaturePad.clear();
-                    document.getElementById('placeholder').classList.remove('hidden');
-                }
-                isInitialized = true;
-            }
+            canvas.width = container.offsetWidth * ratio;
+            canvas.height = 200 * ratio;
+            canvas.style.height = '200px';
+            canvas.getContext('2d').scale(ratio, ratio);
+            if (signaturePad) signaturePad.clear();
         }
 
         resizeCanvas();
-        
-        // Ne réagir au resize que sur des changements significatifs (rotation écran)
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(resizeCanvas, 500);
-        });
+        window.addEventListener('resize', resizeCanvas);
 
         signaturePad = new SignaturePad(canvas, {
             backgroundColor: 'rgb(255, 255, 255)',
@@ -624,4 +605,21 @@
     }
 
     function showStatus(message, type) {
-        const s = docume
+        const s = document.getElementById('statusMsg');
+        s.className = 'status ' + type;
+        s.textContent = message;
+    }
+
+    function showSuccess() {
+        document.getElementById('signingForm').style.display = 'none';
+        document.getElementById('successScreen').classList.add('active');
+    }
+
+    function showError() {
+        document.getElementById('signingForm').style.display = 'none';
+        document.getElementById('errorScreen').classList.add('active');
+    }
+    </script>
+
+</body>
+</html>
