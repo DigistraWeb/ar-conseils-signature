@@ -392,7 +392,7 @@
                         <br>
                         <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
                             AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
-                            (+41) 22 350 50 00 — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aac3c4ccc5eac9c5c4d9cfc3c6d987cbd884c9c2">[email&#160;protected]</a> — www.conseils-ar.ch
+                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
                         </p>
                     </div>
                 </details>
@@ -454,7 +454,7 @@
                Veuillez contacter AR Conseils pour obtenir un nouveau lien.</p>
             <p style="margin-top: 12px;">
                 📞 <a href="tel:+41223505000">+41 22 350 50 00</a><br>
-                ✉️ <a href="/cdn-cgi/l/email-protection#7b12151d143b181415081e121708561a09551813"><span class="__cf_email__" data-cfemail="3b52555d547b585455485e525748165a49155853">[email&#160;protected]</span></a>
+                ✉️ <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a>
             </p>
         </div>
 
@@ -463,11 +463,11 @@
     <!-- ═══════════ FOOTER ═══════════ -->
     <div class="footer">
         AR Conseils Sàrl — Chemin du Grand-Puits, 40 — CH-1217 Meyrin<br>
-        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="/cdn-cgi/l/email-protection#21484f474e61424e4f5244484d520c40530f4249"><span class="__cf_email__" data-cfemail="61080f070e21020e0f1204080d124c00134f0209">[email&#160;protected]</span></a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
+        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -550,33 +550,6 @@
         document.getElementById('submitBtn').disabled = !(consent && hasSigned);
     }
 
-    function submitSignature() {
-        const btn = document.getElementById('submitBtn');
-        if (!signatureId) { showStatus('Erreur : lien invalide.', 'error'); return; }
-        if (signaturePad.isEmpty()) { showStatus('Veuillez signer.', 'error'); return; }
-        if (!document.getElementById('consentCheckbox').checked) { showStatus('Veuillez accepter.', 'error'); return; }
-
-        // Désactiver le bouton immédiatement
-        btn.disabled = true;
-
-        // Afficher le succès IMMÉDIATEMENT (avant l'envoi)
-        showSuccess();
-
-        // Rogner la signature pour enlever les espaces blancs
-        const trimmedSignature = getTrimmedSignature();
-
-        // Envoyer la signature en arrière-plan (le client ne voit pas l'attente)
-        fetch(WEBHOOK_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                signatureId: signatureId,
-                signatureImage: trimmedSignature
-            })
-        });
-    }
-
     // Fonction pour rogner automatiquement la signature (enlever les espaces blancs)
     function getTrimmedSignature() {
         const canvas = document.getElementById('signaturePad');
@@ -630,5 +603,49 @@
         return trimmedCanvas.toDataURL('image/png');
     }
 
+    function submitSignature() {
+        const btn = document.getElementById('submitBtn');
+        if (!signatureId) { showStatus('Erreur : lien invalide.', 'error'); return; }
+        if (signaturePad.isEmpty()) { showStatus('Veuillez signer.', 'error'); return; }
+        if (!document.getElementById('consentCheckbox').checked) { showStatus('Veuillez accepter.', 'error'); return; }
+
+        // Désactiver le bouton immédiatement
+        btn.disabled = true;
+
+        // Afficher le succès IMMÉDIATEMENT (avant l'envoi)
+        showSuccess();
+
+        // Rogner la signature pour enlever les espaces blancs
+        const trimmedSignature = getTrimmedSignature();
+
+        // Envoyer la signature en arrière-plan (le client ne voit pas l'attente)
+        fetch(WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                signatureId: signatureId,
+                signatureImage: trimmedSignature
+            })
+        });
+    }
+
     function showStatus(message, type) {
-        const s = docume
+        const s = document.getElementById('statusMsg');
+        s.className = 'status ' + type;
+        s.textContent = message;
+    }
+
+    function showSuccess() {
+        document.getElementById('signingForm').style.display = 'none';
+        document.getElementById('successScreen').classList.add('active');
+    }
+
+    function showError() {
+        document.getElementById('signingForm').style.display = 'none';
+        document.getElementById('errorScreen').classList.add('active');
+    }
+    </script>
+
+</body>
+</html>
