@@ -384,7 +384,7 @@
                         <br>
                         <p style="text-align:center; font-size:11px; color: var(--ar-text-light); padding-top: 12px; border-top: 1px solid var(--ar-border);">
                             AR Conseils Sàrl — Chemin du Grand-Puits, 40 — 1217 Meyrin<br>
-                            (+41) 22 350 50 00 — info@conseils-ar.ch — www.conseils-ar.ch
+                            (+41) 22 350 50 00 — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5c35323a331c3f33322f3935302f713d2e723f34">[email&#160;protected]</a> — www.conseils-ar.ch
                         </p>
                     </div>
                 </details>
@@ -446,7 +446,7 @@
                Veuillez contacter AR Conseils pour obtenir un nouveau lien.</p>
             <p style="margin-top: 12px;">
                 📞 <a href="tel:+41223505000">+41 22 350 50 00</a><br>
-                ✉️ <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a>
+                ✉️ <a href="/cdn-cgi/l/email-protection#97fef9f1f8d7f4f8f9e4f2fefbe4baf6e5b9f4ff"><span class="__cf_email__" data-cfemail="fe97909891be9d91908d9b97928dd39f8cd09d96">[email&#160;protected]</span></a>
             </p>
         </div>
 
@@ -455,11 +455,11 @@
     <!-- ═══════════ FOOTER ═══════════ -->
     <div class="footer">
         AR Conseils Sàrl — Chemin du Grand-Puits, 40 — CH-1217 Meyrin<br>
-        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="mailto:info@conseils-ar.ch">info@conseils-ar.ch</a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
+        <a href="tel:+41223505000">+41 22 350 50 00</a> · <a href="/cdn-cgi/l/email-protection#147d7a727b54777b7a67717d78673975663a777c"><span class="__cf_email__" data-cfemail="533a3d353c13303c3d20363a3f207e32217d303b">[email&#160;protected]</span></a> · <a href="https://www.conseils-ar.ch" target="_blank">www.conseils-ar.ch</a>
     </div>
 
     <!-- ═══════════ SIGNATURE PAD LIBRARY ═══════════ -->
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/signature_pad@4.2.0/dist/signature_pad.umd.min.js"></script>
 
     <script>
     // ════════════════════════════════════════════════════════════
@@ -481,14 +481,21 @@
     function initSignaturePad() {
         const canvas = document.getElementById('signaturePad');
         const container = document.getElementById('signatureArea');
+        let lastWidth = 0;
 
         function resizeCanvas() {
             const ratio = window.devicePixelRatio || 1;
-            canvas.width = container.offsetWidth * ratio;
-            canvas.height = 250 * ratio;
-            canvas.style.height = '250px';
-            canvas.getContext('2d').scale(ratio, ratio);
-            if (signaturePad) signaturePad.clear();
+            const newWidth = container.offsetWidth;
+            
+            // Ne redimensionner que si la largeur a vraiment changé (plus de 50px de différence)
+            if (lastWidth === 0 || Math.abs(lastWidth - newWidth) > 50) {
+                lastWidth = newWidth;
+                canvas.width = newWidth * ratio;
+                canvas.height = 250 * ratio;
+                canvas.style.height = '250px';
+                canvas.getContext('2d').scale(ratio, ratio);
+                if (signaturePad) signaturePad.clear();
+            }
         }
 
         resizeCanvas();
@@ -554,21 +561,4 @@
     }
 
     function showStatus(message, type) {
-        const s = document.getElementById('statusMsg');
-        s.className = 'status ' + type;
-        s.textContent = message;
-    }
-
-    function showSuccess() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('successScreen').classList.add('active');
-    }
-
-    function showError() {
-        document.getElementById('signingForm').style.display = 'none';
-        document.getElementById('errorScreen').classList.add('active');
-    }
-    </script>
-
-</body>
-</html>
+        const s = docume
